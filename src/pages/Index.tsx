@@ -1,14 +1,41 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import GameLanding from "@/components/GameLanding";
+import GameDashboard from "@/components/GameDashboard";
+import BingoGame from "@/components/BingoBoard";
+
+type GameState = "landing" | "dashboard" | "game";
 
 const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
-  );
+  const [gameState, setGameState] = useState<GameState>("landing");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // For demo purposes, we'll simulate authentication
+  const handleAuth = () => {
+    setIsAuthenticated(true);
+    setGameState("dashboard");
+  };
+
+  const startGame = () => {
+    setGameState("game");
+  };
+
+  const goToDashboard = () => {
+    setGameState("dashboard");
+  };
+
+  if (!isAuthenticated && gameState === "landing") {
+    return <GameLanding />;
+  }
+
+  if (gameState === "dashboard") {
+    return <GameDashboard />;
+  }
+
+  if (gameState === "game") {
+    return <BingoGame />;
+  }
+
+  return <GameLanding />;
 };
 
 export default Index;
